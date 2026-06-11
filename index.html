@@ -1,1 +1,45 @@
-<H1>Hello</H1>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>kml2gpx</title>
+
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="style.css">
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+<meta name="theme-color" content="#1e1e1e">
+</head>
+
+<body>
+
+<h1>kml2gpx</h1>
+
+<input type="file" id="fileInput" accept=".kml,.gpx">
+
+<div id="dropZone">Glisser-déposer un fichier KML ou GPX ici</div>
+
+<div class="buttons">
+<button onclick="convertToGPX()">KML → GPX</button>
+<button onclick="convertToKML()">GPX → KML</button>
+<button onclick="showOnMap()">Afficher sur carte</button>
+</div>
+
+<div id="map"></div>
+
+<textarea id="output" rows="14" placeholder="Résultat..."></textarea>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="app.js"></script>
+
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js');
+}
+</script>
+
+</body>
+</html>
