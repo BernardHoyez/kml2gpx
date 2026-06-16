@@ -1,0 +1,262 @@
+/* ===================================================================
+   kml2gpx — feuille de style
+   Direction artistique : pupitre d'instrument de terrain (boussole /
+   récepteur GPS rétro) posé sur une carte topographique. Ambre sur
+   fond pin sombre, typographie monospace pour toute donnée chiffrée.
+   =================================================================== */
+
+:root{
+  --bg:        #0b1f1c;   /* pin profond, presque noir */
+  --panel:     #122a26;   /* panneau légèrement plus clair */
+  --panel-2:   #0e2421;   /* creux / champs de saisie */
+  --line:      #234943;   /* hairlines, séparateurs */
+  --paper:     #f1ead9;   /* texte principal, crème papier carte */
+  --paper-dim: #b9c4ba;   /* texte secondaire */
+  --amber:     #e8a23d;   /* accent instrument, lecture active */
+  --amber-dim: #8a6428;
+  --teal:      #5fb3a3;   /* second accent, lien/info */
+  --red:       #d1495b;   /* erreur */
+  --green:     #7fb069;   /* succès */
+  --radius:    2px;
+  --mono: ui-monospace, "SF Mono", "Cascadia Mono", "Roboto Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+  --sans: -apple-system, "Inter", "Segoe UI", system-ui, Helvetica, Arial, sans-serif;
+}
+
+*{ box-sizing: border-box; }
+html,body{ height:100%; }
+body{
+  margin:0;
+  background: var(--bg);
+  color: var(--paper);
+  font-family: var(--sans);
+  display:flex;
+  flex-direction:column;
+  min-height:100vh;
+}
+
+a{ color: var(--teal); text-decoration: none; }
+a:hover{ text-decoration: underline; }
+
+/* ---------- plaques (header / footer) ---------- */
+.plate{
+  background: var(--panel);
+  border-bottom: 1px solid var(--line);
+  padding: .9rem 1.25rem;
+}
+.plate-footer{
+  border-top: 1px solid var(--line);
+  border-bottom: none;
+  margin-top: auto;
+  font-size: .78rem;
+  color: var(--paper-dim);
+}
+.plate-footer p{ margin:0; }
+
+.plate-row{
+  display:flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: .6rem 1rem;
+}
+.brand{ display:flex; align-items:center; gap:.5rem; }
+.brand-mark{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width: 1.6rem; height: 1.6rem;
+  border: 1px solid var(--amber);
+  color: var(--amber);
+  font-size: .95rem;
+  border-radius: 50%;
+}
+h1{
+  font-family: var(--mono);
+  font-size: 1.05rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  margin: 0;
+  color: var(--paper);
+}
+.tagline{
+  margin:0;
+  font-size: .8rem;
+  color: var(--paper-dim);
+  font-family: var(--mono);
+}
+
+/* ---------- mise en page principale ---------- */
+.layout{
+  flex: 1;
+  display:flex;
+  gap: 0;
+  min-height: 0;
+}
+.panel{
+  width: 320px;
+  flex: 0 0 320px;
+  background: var(--panel);
+  border-right: 1px solid var(--line);
+  padding: 1.1rem;
+  overflow-y: auto;
+  display:flex;
+  flex-direction:column;
+  gap: 1.2rem;
+}
+.map-wrap{
+  flex: 1;
+  position: relative;
+  background: var(--panel-2);
+}
+#map{ position:absolute; inset:0; }
+
+.panel-block{ display:flex; flex-direction:column; gap:.55rem; }
+.panel-title{
+  font-family: var(--mono);
+  font-size: .72rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin: 0;
+  padding-bottom: .35rem;
+  border-bottom: 1px dashed var(--line);
+}
+
+/* ---------- dropzone ---------- */
+.dropzone{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:.4rem;
+  padding: 1.4rem .8rem;
+  border: 1px dashed var(--amber-dim);
+  border-radius: var(--radius);
+  background: var(--panel-2);
+  cursor:pointer;
+  text-align:center;
+  transition: border-color .15s, background .15s;
+}
+.dropzone:hover, .dropzone.dragover{
+  border-color: var(--amber);
+  background: #16332e;
+}
+.dropzone-icon{ font-size: 1.4rem; color: var(--amber); }
+.dropzone-text{ font-size: .82rem; color: var(--paper-dim); }
+
+/* ---------- lecture / readout ---------- */
+.readout{
+  font-family: var(--mono);
+  font-size: .78rem;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: .7rem .8rem;
+  display:flex;
+  flex-direction:column;
+  gap: .3rem;
+}
+.readout-line{
+  display:flex;
+  justify-content:space-between;
+  gap:.6rem;
+}
+.readout-label{ color: var(--paper-dim); letter-spacing:.08em; }
+.readout-value{
+  color: var(--amber);
+  text-shadow: 0 0 6px rgba(232,162,61,.35);
+  text-align:right;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  max-width: 11rem;
+}
+.status-line{ border-top: 1px dashed var(--line); margin-top:.2rem; padding-top:.4rem; }
+.readout-value.is-error{ color: var(--red); text-shadow:0 0 6px rgba(209,73,91,.35); }
+.readout-value.is-ok{ color: var(--green); text-shadow:0 0 6px rgba(127,176,105,.35); }
+
+/* ---------- boutons ---------- */
+.btn-row{ display:flex; gap:.5rem; }
+.btn{
+  flex:1;
+  font-family: var(--mono);
+  font-size: .78rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  padding: .6rem .7rem;
+  border: 1px solid var(--line);
+  background: var(--panel-2);
+  color: var(--paper-dim);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background .15s, color .15s, border-color .15s;
+}
+.btn:hover:not(:disabled){ border-color: var(--amber-dim); color: var(--paper); }
+.btn:disabled{ opacity:.4; cursor:not-allowed; }
+.btn-primary{
+  background: var(--amber);
+  color: #1a1106;
+  border-color: var(--amber);
+  font-weight:600;
+}
+.btn-primary:hover:not(:disabled){ background:#f0b15c; color:#1a1106; }
+
+.hint{
+  margin:0;
+  font-size: .74rem;
+  color: var(--paper-dim);
+  line-height:1.4;
+}
+
+/* ---------- choix du fond de carte ---------- */
+.basemap-choice{ display:flex; flex-direction:column; gap:.4rem; }
+.radio-pill{
+  display:flex;
+  align-items:center;
+  gap:.55rem;
+  padding:.45rem .6rem;
+  border:1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel-2);
+  font-size:.82rem;
+  cursor:pointer;
+}
+.radio-pill:has(input:checked){
+  border-color: var(--amber);
+  color: var(--amber);
+}
+.radio-pill input{ accent-color: var(--amber); }
+
+/* ---------- Leaflet : petites adaptations au thème ---------- */
+.leaflet-container{ background: var(--panel-2); font-family: var(--sans); }
+.leaflet-control-attribution{
+  background: rgba(11,31,28,.75) !important;
+  color: var(--paper-dim) !important;
+}
+.leaflet-control-attribution a{ color: var(--teal) !important; }
+.leaflet-control-layers{
+  background: var(--panel) !important;
+  color: var(--paper) !important;
+  border: 1px solid var(--line) !important;
+}
+.leaflet-bar a{
+  background: var(--panel) !important;
+  color: var(--paper) !important;
+  border-bottom: 1px solid var(--line) !important;
+}
+.leaflet-bar a:hover{ background: var(--panel-2) !important; }
+
+/* ---------- responsive ---------- */
+@media (max-width: 860px){
+  .layout{ flex-direction: column; }
+  .panel{
+    width: 100%;
+    flex: 0 0 auto;
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+    max-height: 46vh;
+  }
+  .map-wrap{ min-height: 54vh; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  *{ transition: none !important; }
+}

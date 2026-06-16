@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>kml2gpx — convertisseur KML / GPX</title>
+<meta name="description" content="Convertit et affiche des fichiers KML et GPX sur une carte Leaflet, avec fonds OSM, IGN Plan V2 et IGN BD Ortho.">
+<meta name="theme-color" content="#0b1f1c">
+
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon192.png">
+<link rel="apple-touch-icon" href="icons/icon192.png">
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin="anonymous">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="plate">
+  <div class="plate-row">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">⇄</span>
+      <h1>kml2gpx</h1>
+    </div>
+    <p class="tagline">conversion KML ⇄ GPX &nbsp;·&nbsp; tracé sur carte</p>
+  </div>
+</header>
+
+<main class="layout">
+
+  <!-- ===== Panneau de commande ===== -->
+  <section class="panel" aria-label="Outils de conversion">
+
+    <div class="panel-block">
+      <h2 class="panel-title">01 — Fichier</h2>
+      <label class="dropzone" for="fileInput" id="dropzone">
+        <input type="file" id="fileInput" accept=".kml,.gpx,application/vnd.google-earth.kml+xml,application/gpx+xml" hidden>
+        <span class="dropzone-icon" aria-hidden="true">⤓</span>
+        <span class="dropzone-text">Déposer ou choisir un .kml / .gpx</span>
+      </label>
+    </div>
+
+    <div class="panel-block">
+      <h2 class="panel-title">02 — Lecture</h2>
+      <div class="readout" id="readout" role="status" aria-live="polite">
+        <div class="readout-line"><span class="readout-label">FICHIER</span><span class="readout-value" id="roFile">—</span></div>
+        <div class="readout-line"><span class="readout-label">FORMAT</span><span class="readout-value" id="roFormat">—</span></div>
+        <div class="readout-line"><span class="readout-label">POINTS</span><span class="readout-value" id="roPoints">—</span></div>
+        <div class="readout-line"><span class="readout-label">TRACÉS</span><span class="readout-value" id="roTracks">—</span></div>
+        <div class="readout-line"><span class="readout-label">DISTANCE</span><span class="readout-value" id="roDistance">—</span></div>
+        <div class="readout-line status-line"><span class="readout-label">ÉTAT</span><span class="readout-value" id="roStatus">en attente…</span></div>
+      </div>
+    </div>
+
+    <div class="panel-block">
+      <h2 class="panel-title">03 — Conversion</h2>
+      <div class="btn-row">
+        <button class="btn btn-primary" id="btnConvert" disabled>Convertir</button>
+        <button class="btn" id="btnDownload" disabled>Enregistrer</button>
+      </div>
+      <p class="hint" id="convertHint">Le sens de conversion est détecté automatiquement selon le fichier chargé.</p>
+    </div>
+
+    <div class="panel-block">
+      <h2 class="panel-title">04 — Fond de carte</h2>
+      <div class="basemap-choice" id="basemapChoice">
+        <label class="radio-pill">
+          <input type="radio" name="basemap" value="osm" checked>
+          <span>OSM</span>
+        </label>
+        <label class="radio-pill">
+          <input type="radio" name="basemap" value="ignplan">
+          <span>IGN Plan&nbsp;V2</span>
+        </label>
+        <label class="radio-pill">
+          <input type="radio" name="basemap" value="ignortho">
+          <span>IGN BD&nbsp;Ortho</span>
+        </label>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ===== Carte ===== -->
+  <section class="map-wrap" aria-label="Carte">
+    <div id="map"></div>
+  </section>
+
+</main>
+
+<footer class="plate plate-footer">
+  <p>kml2gpx — outil libre et hors-ligne · <a href="https://github.com/BernardHoyez/kml2gpx" target="_blank" rel="noopener">code source</a></p>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin="anonymous"></script>
+<script src="js/app.js" defer></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').catch(console.error);
+    });
+  }
+</script>
+</body>
+</html>
